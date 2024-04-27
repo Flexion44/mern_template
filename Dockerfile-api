@@ -1,0 +1,34 @@
+FROM node:20-alpine as base
+
+# Définir le répertoire de travail dans l'image
+WORKDIR /app
+
+# Copier les fichiers package.json et package-lock.json
+COPY ./api/package.json ./
+
+# Installer les dépendances
+RUN npm i
+
+# Copier le reste des fichiers de l'application
+COPY ./api .
+
+ENV PORT=80
+
+ARG MONGO_FULL_PATH
+ENV MONGO_FULL_PATH=$MONGO_FULL_PATH
+ARG MONGO_HOST
+ENV MONGO_HOST=$MONGO_HOST
+ARG MONGO_PORT
+ENV MONGO_PORT=$MONGO_PORT
+ARG MONGO_DB
+ENV MONGO_DB=$MONGO_DB
+ARG MONGO_USER
+ENV MONGO_USER=$MONGO_USER
+ARG MONGO_PASSWORD
+ENV MONGO_PASSWORD=$MONGO_PASSWORD
+
+# Exposer le port d'écoute de l'application
+EXPOSE 80
+
+# Démarrer l'application
+CMD ["npm", "run", "start"]

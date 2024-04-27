@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mongo-db :
+    image: 'mongo'
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - '27017:27017'
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile-dev
+    ports:
+      - '5050:5050'
+    depends_on:
+      - mongo-db
+    environment:
+      - MONGODB_HOST=mongo-db
+      - MONGODB_PORT=27017
+      - MONGODB_USER=root
+      - MONGODB_PASSWORD=secret
+      - MONGODB_DATABASE=mern_db
+      - PORT=5050
+    #Volume for development
+    volumes:
+      - /usr/src/app/node_modules
+      - ./api:/usr/src/app
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile-dev
+    ports:
+      - '5173:5173'
+    depends_on:
+      - api
+    volumes:
+      - /app/node_modules
+      - ./front:/app
