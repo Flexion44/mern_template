@@ -1,8 +1,20 @@
 import {Card, CardContent, Grid, Typography} from "@mui/material";
+import {useEffect} from "react";
 import {Cpu} from "react-feather";
+import axiosClient from "../AxiosClient.js";
 
 
 const MainPage = () => {
+
+    useEffect(() => {
+        axiosClient.get("/")
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    }, []);
 
     return (
         <div className={"flex justify-center w-full"}>
