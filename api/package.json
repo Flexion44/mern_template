@@ -1,7 +1,7 @@
 {
-  "name": "csrd-utils",
+  "name": "mern_template_api",
   "version": "1.0.0",
-  "description": "A project to create CSRD questions templates",
+  "description": "A project of mern template api",
   "main": "index.js",
   "license": "MIT",
   "private": true,
